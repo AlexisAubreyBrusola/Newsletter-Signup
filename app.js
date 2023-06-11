@@ -1,14 +1,14 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const client = require("@mailchimp/mailchimp_marketing");
-const app = express();
 
 const PORT = process.env.PORT;
-const mailChimpApiKey = "d8f3a4aafad383a92930a208cbadf880-us12";
+const mailChimpApiKey = "90f7dd6a18780a3b57be9481f017073c-us12";
 const serverPrefix = "us12"; // e.g., 'us12'
 const mailChimpAudienceId = "a405a7ee54";
 
-app.use(express.urlencoded({ extended: true }));
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("assets"));
 
 // Mailchimp config
@@ -49,6 +49,7 @@ app.post("/", (req, res) => {
     // Asynchronous function to add a member to the Mailchimp audience
     async function run() {
         const response = await client.lists.addListMember(mailChimpAudienceId, audienceData);
+
         if (response.errors) {
             throw new Error(response.errors);
         };
